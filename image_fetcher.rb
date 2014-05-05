@@ -15,17 +15,12 @@ class ImageFetcher
   end
 
   def all_images
-    @data['data']['children'].reduce([]) do |all_images, child|
-      all_images << child['data']['url']
-      all_images
-    end
+    @data['data']['children'].map {|child| child['data']['url']}
   end
 
   def only_imgur_images
-    @data['data']['children'].reduce([]) do |all_images, child|
-      url = child['data']['url']
-      all_images << url if url.slice(0..17) == 'http://i.imgur.com'
-      all_images
+    all_images.select do |image|
+      image.include? 'http://i.imgur.com'
     end
   end
 
