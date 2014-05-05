@@ -15,20 +15,18 @@ class ImageFetcher
   end
 
   def all_images
-    all_images = []
-    @data['data']['children'].each do |child|
+    @data['data']['children'].reduce([]) do |all_images, child|
       all_images << child['data']['url']
+      all_images
     end
-    all_images
   end
 
-  # fetch only the images that begin with `http://i.imgur.com`
   def only_imgur_images
-    all_images = []
-    @data['data']['children'].each do |child|
-      url=child['data']['url']
+    @data['data']['children'].reduce([]) do |all_images, child|
+      url = child['data']['url']
       all_images << url if url.slice(0..17) == 'http://i.imgur.com'
+      all_images
     end
-    all_images
   end
+
 end
